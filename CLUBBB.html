@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Registration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            background-color: #f4f8fb;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        h1, h2 {
+            font-weight: 600;
+            color: #0288d1; /* Blue header */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Header */
+        header {
+            background-color: #0288d1; /* Blue header */
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        header p {
+            font-size: 18px;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Form Styles */
+        label {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: block;
+            color: #555;
+        }
+
+        input, button, select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        input:focus, select:focus, button:focus {
+            outline: none;
+            border-color: #0288d1;
+        }
+
+        input {
+            background-color: #fafbfc;
+        }
+
+        button {
+            background-color: #0288d1;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0277bd;
+        }
+
+        .cell-section {
+            margin-bottom: 20px;
+            background-color: #f0f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .remove-cell-btn {
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .remove-cell-btn:hover {
+            background-color: #c62828;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0288d1;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 30px auto;
+            }
+
+            header h1 {
+                font-size: 28px;
+            }
+
+            header p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1>Join Our Club</h1>
+        <p>Register to become a member and enjoy exclusive benefits!</p>
+    </header>
+
+    <!-- Registration Form Section -->
+    <div class="container">
+        <h2>Club Registration</h2>
+        <form id="registrationForm">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone">
+
+            <!-- Dynamic Cell Section -->
+            <div id="cellSectionContainer"></div>
+
+            <button type="button" id="addCellButton">Add a Cell/Section</button>
+            
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2025 Vet Innovate. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript for form submission and dynamic cell addition -->
+    <script>
+        // Add cell functionality
+        const addCellButton = document.getElementById('addCellButton');
+        const cellSectionContainer = document.getElementById('cellSectionContainer');
+
+        addCellButton.addEventListener('click', function() {
+            const cellSection = document.createElement('div');
+            cellSection.classList.add('cell-section');
+            
+            // Create cell selection dropdown
+            const cellLabel = document.createElement('label');
+            cellLabel.innerText = 'Select Your Cell/Section:';
+            const cellSelect = document.createElement('select');
+            cellSelect.name = 'cell[]';
+            cellSelect.innerHTML = `
+                <option value="">--Choose a Cell--</option>
+                <option value="Organisation">Organisation</option>
+                <option value="Animation">Animation</option>
+                <option value="Public Relations">Public Relations</option>
+                <option value="Media and Photography">Media and Photography</option>
+                <option value="Design">Design</option>
+            `;
+            cellSection.appendChild(cellLabel);
+            cellSection.appendChild(cellSelect);
+            
+            // Remove button
+            const removeButton = document.createElement('button');
+            removeButton.classList.add('remove-cell-btn');
+            removeButton.innerText = 'Remove this Cell';
+            removeButton.addEventListener('click', function() {
+                cellSectionContainer.removeChild(cellSection);
+            });
+            cellSection.appendChild(removeButton);
+            
+            // Append to container
+            cellSectionContainer.appendChild(cellSection);
+        });
+
+        // Form submission functionality
+        const form = document.getElementById('registrationForm');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Registration Successful!');
+        });
+    </script>
+</body>
+</html>
